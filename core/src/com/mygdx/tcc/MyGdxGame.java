@@ -14,7 +14,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont fonte;
 	int frame = 0;
+	double anguloX, anguloY, anguloZ;
 	double giroX, giroY, giroZ;
+	double angulo;
 	byte musicaAtual = 0;
 	byte estado = 0;
 
@@ -23,7 +25,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		fonte = new BitmapFont();
 		fonte.getData().setScale(8);
+		anguloX = anguloY = anguloZ = 0.00;
 		giroX = giroY = giroZ = 0.00;
+		angulo = 0;
 	}
 
 	@Override
@@ -31,12 +35,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		frame += 1;
 
 		//Pega o valor do acelerômetro, em m/s^2, e converte para graus
-		giroX = Gdx.input.getAccelerometerX() * 9.18;
-		giroY = Gdx.input.getAccelerometerY() * -9.18;
-		giroZ = Gdx.input.getAccelerometerZ() * 9.18;
+		anguloX = Gdx.input.getAccelerometerX() * 9.18;
+		anguloY = Gdx.input.getAccelerometerY() * 9.18;
+		anguloZ = Gdx.input.getAccelerometerZ() * 9.18;
 
-		if(giroY < 30 && giroY > 0 && estado == 0) {
-			if(giroZ > 0) {
+		giroX = Gdx.input.getGyroscopeX();
+		giroY = Gdx.input.getGyroscopeY();
+		giroZ = Gdx.input.getGyroscopeZ();
+
+		angulo = 0.98 * (angulo + giroY * 1/10) + 0.02 * anguloY;
+
+		if(angulo < 60 && angulo > 0 && estado == 0) {
+			if(anguloZ > 0) {
 				estado = 1;
 				musicaAtual++;
 			}
@@ -50,7 +60,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			case 1:
 			{
-				if(giroY > 80 && giroY < 100)
+				if(angulo > 60)
 					estado = 0;
 
 				break;
@@ -61,9 +71,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
 		fonte.draw(batch, Byte.toString(musicaAtual), 0, 1200);
-		fonte.draw(batch, Double.toString(Math.round(giroX * 100) / 100), 0, 1000);
-		fonte.draw(batch, Double.toString(Math.round(giroY * 100) / 100), 0, 650);
-		fonte.draw(batch, Double.toString(Math.round(giroZ * 100) / 100), 0, 300);
+		fonte.draw(batch, Double.toString(Math.round(angulo * 100) / 100), 0, 1400);
+		fonte.draw(batch, Double.toString(Math.round(anguloX * 100) / 100), 0, 1000);
+		fonte.draw(batch, Double.toString(Math.round(anguloY * 100.000) / 100.000), 0, 650);
+		fonte.draw(batch, Double.toString(Math.round(anguloZ * 100) / 100), 0, 300);
 		batch.end();
 	}
 	

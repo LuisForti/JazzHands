@@ -12,10 +12,10 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		config.useAccelerometer = true;  //Ativa o acelerômetro
+		config.useAccelerometer = true;  //Ativa o acelerômetro e o giroscópio
+		config.useGyroscope = true;
 
-		//Desativa o giroscópio e o compasso
-		config.useGyroscope = false;
+		//Desativa o compasso
 		config.useCompass = false;
 
 		initialize(new MyGdxGame(), config);
