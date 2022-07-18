@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.mygdx.tcc"
+        applicationId "com.jazzhands.game"
         minSdkVersion 14
         targetSdkVersion 32
         versionCode 1
@@ -37,7 +37,6 @@ android {
 // so they get packed with the APK.
 task copyAndroidNatives {
     doFirst {
-        file("libs/armeabi/").mkdirs()
         file("libs/armeabi-v7a/").mkdirs()
         file("libs/arm64-v8a/").mkdirs()
         file("libs/x86_64/").mkdirs()
@@ -47,7 +46,6 @@ task copyAndroidNatives {
             def outputDir = null
             if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
             if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-            if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
             if(jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
             if(jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
             if(outputDir != null) {
@@ -62,7 +60,7 @@ task copyAndroidNatives {
 }
 
 tasks.whenTaskAdded { packageTask ->
-    if (packageTask.name.contains("package")) {
+    if (packageTask.name.contains("merge") && packageTask.name.contains("JniLibFolders")) {
         packageTask.dependsOn 'copyAndroidNatives'
     }
 }
@@ -86,7 +84,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.mygdx.tcc/com.mygdx.tcc.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jazzhands.game/com.jazzhands.game.AndroidLauncher'
 }
 
 eclipse.project.name = appName + "-android"
