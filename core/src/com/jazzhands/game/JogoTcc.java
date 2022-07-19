@@ -17,7 +17,7 @@ public class JogoTcc extends ApplicationAdapter {
     BitmapFont fonte;
     int frame = 0;
     double anguloX, anguloY, anguloZ;
-    byte musicaAtual = 0;
+    String posicao = "";
     Music musicaTeste;
 
     @Override
@@ -41,18 +41,31 @@ public class JogoTcc extends ApplicationAdapter {
         anguloZ = Gdx.input.getAccelerometerZ() * 9.18;
         // A cada 40/60 segundos ele analizará a posição do celular, aproximadamente o intervalo entre as batidas do metrônomo da música
         if (frame % 40 == 0) {
-
+            // Para cima
             if (anguloY > 40) {
-                musicaAtual++;
-            } else if (anguloY < 40) {
-                musicaAtual--;
+                posicao = "cima";
+            }
+            //Para trás ou para frente
+            else if (anguloY < 40) {
+                if(anguloX < 40 && anguloX > -40) {
+                    if (anguloZ > 0)
+                        posicao = "frente";
+                    else
+                        posicao = "trás";
+                }
+                else if(anguloX > 40)
+                {
+                    posicao = "esquerda";
+                }
+                else
+                    posicao = "direita";
             }
         }
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
-        fonte.draw(batch, Byte.toString(musicaAtual), 0, 1200);
+        fonte.draw(batch, posicao, 0, 1200);
         fonte.draw(batch, Double.toString(Math.round(anguloX * 100) / 100), 0, 1000);
-        fonte.draw(batch, Double.toString(Math.round(anguloY * 1000.000) / 1000.000), 0, 650);
+        fonte.draw(batch, Double.toString(Math.round(anguloY * 100) / 100), 0, 650);
         fonte.draw(batch, Double.toString(Math.round(anguloZ * 100) / 100), 0, 300);
         batch.end();
     }
