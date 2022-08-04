@@ -2,14 +2,9 @@ package com.jazzhands.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class JogoTcc extends ApplicationAdapter {
@@ -19,6 +14,7 @@ public class JogoTcc extends ApplicationAdapter {
     double anguloX, anguloY, anguloZ;
     String posicao = "";
     Music musicaTeste;
+    double bpm = 0;
 
     @Override
     public void create() {
@@ -26,7 +22,7 @@ public class JogoTcc extends ApplicationAdapter {
         fonte = new BitmapFont();
         fonte.getData().setScale(8);
         anguloX = anguloY = anguloZ = 0.00;
-        musicaTeste = Gdx.audio.newMusic(Gdx.files.internal("videoplayback.mp3")); // https://www.youtube.com/watch?v=kagnuCGexGg
+        musicaTeste = Gdx.audio.newMusic(Gdx.files.internal("Drum-Bass-Cartoon-On-On-ft-Daniel-Levi_.mp3")); // Cartoon - On & On (Lyrics) feat. Daniel Levi
     }
 
     @Override
@@ -40,7 +36,8 @@ public class JogoTcc extends ApplicationAdapter {
         anguloY = Gdx.input.getAccelerometerY() * 9.18;
         anguloZ = Gdx.input.getAccelerometerZ() * 9.18;
         // A cada 40/60 segundos ele analizará a posição do celular, aproximadamente o intervalo entre as batidas do metrônomo da música
-        if (frame % 40 == 0) {
+        if (frame % 31 == 0) {
+            bpm++;
             // Para cima
             if (anguloY > 40) {
                 posicao = "cima";
@@ -64,9 +61,7 @@ public class JogoTcc extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         fonte.draw(batch, posicao, 0, 1200);
-        fonte.draw(batch, Double.toString(Math.round(anguloX * 100) / 100), 0, 1000);
-        fonte.draw(batch, Double.toString(Math.round(anguloY * 100) / 100), 0, 650);
-        fonte.draw(batch, Double.toString(Math.round(anguloZ * 100) / 100), 0, 300);
+        fonte.draw(batch, Double.toString(bpm), 0, 1000);
         batch.end();
     }
 
