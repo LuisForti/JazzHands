@@ -14,7 +14,8 @@ public class JogoTcc extends ApplicationAdapter {
     double anguloX, anguloY, anguloZ;
     String posicao = "";
     Music musicaTeste;
-    double bpm = 0;
+    int[] batidas = {150,180,300};
+    int batidaAtual = 0;
 
     @Override
     public void create() {
@@ -36,8 +37,8 @@ public class JogoTcc extends ApplicationAdapter {
         anguloY = Gdx.input.getAccelerometerY() * 9.18;
         anguloZ = Gdx.input.getAccelerometerZ() * 9.18;
         // A cada 40/60 segundos ele analizará a posição do celular, aproximadamente o intervalo entre as batidas do metrônomo da música
-        if (frame % 31 == 0) {
-            bpm++;
+        if (frame == batidas[batidaAtual]) {
+            batidaAtual++;
             // Para cima
             if (anguloY > 40) {
                 posicao = "cima";
@@ -61,7 +62,6 @@ public class JogoTcc extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         fonte.draw(batch, posicao, 0, 1200);
-        fonte.draw(batch, Double.toString(bpm), 0, 1000);
         batch.end();
     }
 
