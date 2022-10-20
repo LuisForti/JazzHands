@@ -18,6 +18,6 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useCompass = false;
 		config.useGyroscope = true;
 
-		initialize(new JogoTcc(), config);
+		initialize(new Controlador(), config);
 	}
 }
