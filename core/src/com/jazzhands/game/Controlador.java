@@ -36,6 +36,6 @@ public class Controlador extends Game {
         estado = "jogando";
         telaJogo = new JogoTcc();
         setScreen(telaJogo);
-        telaJogo.iniciar("Drum-Bass-Cartoon-On-On-ft-Daniel-Levi_.mp3"); // Cartoon - On & On (Lyrics) feat. Daniel Levi
+        telaJogo.iniciar("TheFatRat - Unity (320 kbps) (mp3cut.net).mp3"); // Cartoon - On & On (Lyrics) feat. Daniel Levi
     }
 }
