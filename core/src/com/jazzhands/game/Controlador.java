@@ -45,11 +45,17 @@ public class Controlador extends Game {
                 telaMenu.render(posicao);
                 switch (telaMenu.pegarEstado())
                 {
-                    case "jogando": trocarParaJogo();
+                    case "jogando": trocarParaJogo(); break;
                     default: break;
                 }
                 break;
-            case "jogando": telaJogo.render(posicao); break;
+            case "jogando":
+                switch (telaJogo.pegarEstado()) {
+                    case "jogando": telaJogo.render(posicao); break;
+                    case "acabou": trocarParaMenu();
+                    default: break;
+                }
+                break;
             default: break;
         }
     }
@@ -66,6 +72,6 @@ public class Controlador extends Game {
         estado = "jogando";
         telaJogo = new JogoTcc();
         setScreen(telaJogo);
-        telaJogo.iniciar("TheFatRat - Unity (320 kbps) (mp3cut.net).mp3");
+        telaJogo.iniciar(telaMenu.pegarMusica());
     }
 }

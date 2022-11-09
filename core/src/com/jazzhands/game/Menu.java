@@ -32,6 +32,11 @@ public class Menu implements Screen {
         return estado;
     }
 
+    public String pegarMusica()
+    {
+        return "wellerman-alexander-nakada.mp3"; //Wellerman - Alexander Nakarada. Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
+    }
+
     @java.lang.Override
     public void resize(int width, int height) {
 

@@ -12,25 +12,14 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     BitmapFont fonte;
     double frame = 0;
-    Music musicaTeste;
-    double[] batidas = {0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,
-                        0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,
-                        0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136, 0.5454,0.5454,0.5454,//Depois do 1 seria pausa
-                        0.5454,0.2727,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,
-                        0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.2727,0.272,0.272,0.5454,0.272,0.272,
-                        0.5454,0.5454,0.5454,0.2727,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,
-                        0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.2727,0.272,0.272,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.41,0.272,0.272,
-                        0.136,0.41,0.272,0.272,0.136,0.41,0.272 ,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,
-                        0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,0.41,0.272,
-                        0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.5454,//Depois do 1 seria pausa
-                        0.5454,0.2727,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,
-                        0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.5454,0.272,0.272,0.5454,0.5454,0.2727,
-                        0.272,0.272,0.5454,0.272, 0.272,0.5454,0.5454};
-    int ritmo = 42;
+    Music musica;
+    int ritmo = 35;
     double proximaBatida = 0;
     int batidaAtual = 1;
     String[] movimentacao = {"cima", "frente"};
     int pontuacao = 0;
+
+    String estado = "jogando";
 
 
     @java.lang.Override
@@ -43,19 +32,24 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         //Método obrigatório de Screen
     }
 
-    public void iniciar(String musica)
+    public void iniciar(String enderecoMusica)
     {
         batch = new SpriteBatch();
         fonte = new BitmapFont();
         fonte.getData().setScale(8);
-        musicaTeste = Gdx.audio.newMusic(Gdx.files.internal(musica));
-        proximaBatida = batidas[0];
+        musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica));
+        proximaBatida = ritmo;
     }
 
     public void render(String posicao) {
         // Processamento da música
-        if(frame == 0)
-            musicaTeste.play();
+        if(frame == 0) {
+            musica.play();
+            estado = "jogando";
+        }
+
+        if(!musica.isPlaying())
+            estado = "acabou";
 
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
@@ -64,18 +58,23 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         fonte.draw(batch, String.valueOf(frame), 0, 800);
         batch.end();
 
-        frame += 1/60d;
+        frame += 1;
 
         // A cada 40/60 segundos ele analizará a posição do celular, aproximadamente o intervalo entre as batidas do metrônomo da música
         if (frame >= proximaBatida) {
             batidaAtual++;
-            proximaBatida += batidas[batidaAtual];
+            proximaBatida += ritmo;
             if (posicao == movimentacao[batidaAtual % 2])
             {
                 pontuacao++;
                 Gdx.input.vibrate(200);
             }
         }
+    }
+
+    public String pegarEstado()
+    {
+        return estado;
     }
 
     @java.lang.Override
