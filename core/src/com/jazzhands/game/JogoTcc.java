@@ -12,7 +12,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     BitmapFont fonte;
     double frame = 0;
-    String posicao = "";
     Music musicaTeste;
     double[] batidas = {0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,
                         0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.41,0.272,0.272,0.136,0.5454,0.5454,0.41,
@@ -53,7 +52,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         proximaBatida = batidas[0];
     }
 
-    public void render(float delta, double anguloX,double anguloY, double anguloZ) {
+    public void render(String posicao) {
         // Processamento da música
         if(frame == 0)
             musicaTeste.play();
@@ -71,22 +70,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         if (frame >= proximaBatida) {
             batidaAtual++;
             proximaBatida += batidas[batidaAtual];
-            // Para cima
-            if (anguloY > 40) {
-                posicao = "cima";
-            }
-            //Para trás ou para frente
-            else if (anguloY < 40) {
-                if (anguloX < 40 && anguloX > -40) {
-                    if (anguloZ > 0)
-                        posicao = "frente";
-                    else
-                        posicao = "trás";
-                } else if (anguloX > 40) {
-                    posicao = "esquerda";
-                } else
-                    posicao = "direita";
-            }
             if (posicao == movimentacao[batidaAtual % 2])
             {
                 pontuacao++;

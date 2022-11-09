@@ -4,18 +4,32 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Screen;
 
 public class Menu implements Screen {
+    private String estado;
+
     @java.lang.Override
     public void show() {
-
+        estado = "menu";
     }
 
     @java.lang.Override
-    public void render(float delta) {
-        //Método obrigatório de Screen
+    public void render(float delta) {/*Método obrigatório de Screen*/}
+
+    public void render(String posicao) {
+        switch (posicao)
+        {
+            case "esquerda":
+            case "direita":
+                estado = "jogando";
+                break;
+            default:
+                estado = "menu";
+                break;
+        }
     }
 
-    public void render(float delta, double anguloX,double anguloy, double anguloZ) {
-
+    public String pegarEstado()
+    {
+        return estado;
     }
 
     @java.lang.Override
