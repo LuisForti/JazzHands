@@ -13,7 +13,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     BitmapFont fonte;
     double frame = 0;
     Music musica;
-    int ritmo = 35;
+    int ritmo = 0;
     double proximaBatida = 0;
     int batidaAtual = 1;
     String[] movimentacao = {"cima", "frente"};
@@ -32,12 +32,13 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         //Método obrigatório de Screen
     }
 
-    public void iniciar(String enderecoMusica)
+    public void iniciar(String[] enderecoMusica)
     {
         batch = new SpriteBatch();
         fonte = new BitmapFont();
         fonte.getData().setScale(8);
-        musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica));
+        musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica[0]));
+        ritmo = Integer.parseInt(enderecoMusica[1]);
         proximaBatida = ritmo;
     }
 

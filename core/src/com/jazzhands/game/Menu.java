@@ -5,6 +5,19 @@ import com.badlogic.gdx.Screen;
 
 public class Menu implements Screen {
     private String estado;
+    private String[][] listaDasMusicas = {
+            {"100years.mp3", "34"},
+            {"deNada.mp3", "29"},
+            {"everythingGoesOn.mp3", "29"},
+            {"goodEnough.mp3", "33"},
+            {"hisTheme.mp3", "33"},
+            {"karma.mp3", "29"},
+            {"piratasDoCaribe.mp3", "30"},
+            {"pokemonTema.mp3", "26"},
+            {"stillDancing.mp3", "30"},
+            {"wellerman.mp3", "35"}
+    };
+    private byte musicaEscolhida = 0;
 
     @java.lang.Override
     public void show() {
@@ -32,9 +45,9 @@ public class Menu implements Screen {
         return estado;
     }
 
-    public String pegarMusica()
+    public String[] pegarMusica()
     {
-        return "wellerman-alexander-nakada.mp3"; //Wellerman - Alexander Nakarada. Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
+        return listaDasMusicas[musicaEscolhida]; //Wellerman - Alexander Nakarada. Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
     }
 
     @java.lang.Override
