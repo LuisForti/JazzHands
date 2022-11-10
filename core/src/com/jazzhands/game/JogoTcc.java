@@ -7,18 +7,26 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import java.io.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class JogoTcc extends ApplicationAdapter implements Screen {
     SpriteBatch batch;
     BitmapFont fonte;
-    double frame = 0;
+
     Music musica;
+
+    int frame = 0;
     int ritmo = 0;
     double proximaBatida = 0;
-    int batidaAtual = 1;
-    String[] movimentacao = {"cima", "frente"};
-    int pontuacao = 0;
+    int batidaAtual = -1;
+    String[][] movimentacao = {{"cima", "frente"}};
+    int batidasFalhas = 0;
 
+    int pontuacao = 0;
     String estado = "jogando";
 
 
@@ -34,12 +42,13 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
 
     public void iniciar(String[] enderecoMusica)
     {
-        batch = new SpriteBatch();
-        fonte = new BitmapFont();
-        fonte.getData().setScale(8);
         musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica[0]));
         ritmo = Integer.parseInt(enderecoMusica[1]);
         proximaBatida = ritmo;
+
+        batch = new SpriteBatch();
+        fonte = new BitmapFont();
+        fonte.getData().setScale(1);
     }
 
     public void render(String posicao) {
@@ -50,14 +59,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         }
 
         if(!musica.isPlaying())
-            estado = "acabou";
-
-        ScreenUtils.clear(0, 0, 0, 1);
-        batch.begin();
-        fonte.draw(batch, posicao, 0, 1200);
-        fonte.draw(batch, String.valueOf(batidaAtual), 0, 400);
-        fonte.draw(batch, String.valueOf(frame), 0, 800);
-        batch.end();
+            estado = "ganhou";
 
         frame += 1;
 
@@ -65,10 +67,38 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         if (frame >= proximaBatida) {
             batidaAtual++;
             proximaBatida += ritmo;
-            if (posicao == movimentacao[batidaAtual % 2])
+            if (posicao == movimentacao[0][batidaAtual % 2])
             {
-                pontuacao++;
+                if(batidaAtual > 10) {
+                    pontuacao++;
+                    batidasFalhas = 0;
+                }
                 Gdx.input.vibrate(200);
+            }
+            else
+                batidasFalhas++;
+            if(batidasFalhas >= 10) {
+                estado = "perdeu";
+                musica.stop();
+                //Class.forName("com.mysql.cj.jdbc.Driver");
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    java.sql.Connection conn = DriverManager.getConnection(
+                            "jdbc:mysql://aws-sa-east-1.connect.psdb.cloud/jazzhands?sslMode=VERIFY_IDENTITY",
+                            "85y7ejgyd54nl7sm22s0",
+                            "main-2022-nov-10-0o5cv2");
+                }
+                catch (Exception err)
+                {
+                    StringWriter sw = new StringWriter();
+                    err.printStackTrace(new PrintWriter(sw));
+                    String exceptionAsString = sw.toString();
+
+                    ScreenUtils.clear(0, 0, 0, 1);
+                    batch.begin();
+                    fonte.draw(batch, exceptionAsString, 0, 1200);
+                    batch.end();
+                }
             }
         }
     }
