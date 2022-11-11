@@ -9,21 +9,21 @@ public class Menu implements Screen {
 
     //Matriz com as informações das músicas
     private String[][] listaDasMusicas = {
-            {"100years.mp3", "34"}, //Disponível em: https://www.youtube.com/watch?v=-kWFRyQ5VU8&list=PLAdwl9xZlNTB4pHCmi81eG2U_CB93Q5eF&index=6
-            {"deNada.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=HCywogc4NqA
-            {"dragonsquest.mp3", "24"}, //Disponível em: https://www.youtube.com/watch?v=J4L1dVYmotg
-            {"everythingGoesOn.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=sgWAeJyM6QI
-            {"goodEnough.mp3", "33"}, //Disponível em: https://www.youtube.com/watch?v=thZqzBtnXCY&t=27s
-            {"hisTheme.mp3", "33"}, //Disponível em: https://www.youtube.com/watch?v=IkOK8tdEsFY
-            {"karma.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=wsFB9Z7DfFc
-            {"piratasDoCaribe.mp3", "30"}, //Disponível em: https://www.youtube.com/watch?v=ZLZ5I3-9B6U
-            {"pokemonTema.mp3", "26"}, //Disponível em: https://www.youtube.com/watch?v=La0SnKkNaZw
-            {"stillDancing.mp3", "30"}, //Disponível em: https://www.youtube.com/watch?v=AlYdp8P1s6c
-            {"wellerman.mp3", "35"} //Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
+            {"100years_com_metronomo.mp3", "34"}, //Disponível em: https://www.youtube.com/watch?v=-kWFRyQ5VU8&list=PLAdwl9xZlNTB4pHCmi81eG2U_CB93Q5eF&index=6
+            {"deNada_com_metronomo.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=HCywogc4NqA
+            {"dragonsQuest_com_metronomo.mp3", "24"}, //Disponível em: https://www.youtube.com/watch?v=J4L1dVYmotg
+            {"everythingGoesOn_com_metronomo.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=sgWAeJyM6QI
+            {"goodEnough_com_metronomo.mp3", "33"}, //Disponível em: https://www.youtube.com/watch?v=thZqzBtnXCY&t=27s
+            {"hisTheme_com_metronomo.mp3", "33"}, //Disponível em: https://www.youtube.com/watch?v=IkOK8tdEsFY
+            {"karma_com_metronomo.mp3", "29"}, //Disponível em: https://www.youtube.com/watch?v=wsFB9Z7DfFc
+            {"piratasDoCaribe_com_metronomo.mp3", "30"}, //Disponível em: https://www.youtube.com/watch?v=ZLZ5I3-9B6U
+            {"pokemonTema_com_metronomo.mp3", "26"}, //Disponível em: https://www.youtube.com/watch?v=La0SnKkNaZw
+            {"stillDancing_com_metronomo.mp3", "30"}, //Disponível em: https://www.youtube.com/watch?v=AlYdp8P1s6c
+            {"wellerman_com_metronomo.mp3", "35"} //Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
     };
 
     //Variável que define a música que o jogador está observando
-    private int musicaEscolhida = 0;
+    private int musicaEscolhida = 10;
     private int frame = 0;
     private int ultimaMudanca = -60;
 

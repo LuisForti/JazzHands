@@ -22,7 +22,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     int frame = 0;
     int ritmo = 0;
     double proximaBatida = 0;
-    int batidaAtual = -1;
+    int batidaAtual = 0;
     String[][] movimentacao = {{"cima", "frente"}};
     int batidasFalhas = 0;
 
