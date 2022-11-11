@@ -4,19 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import java.io.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JogoTcc extends ApplicationAdapter implements Screen {
-    SpriteBatch batch;
-    BitmapFont fonte;
-
     Music musica;
 
     int frame = 0;
@@ -45,10 +36,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica[0]));
         ritmo = Integer.parseInt(enderecoMusica[1]);
         proximaBatida = ritmo;
-
-        batch = new SpriteBatch();
-        fonte = new BitmapFont();
-        fonte.getData().setScale(1);
     }
 
     public void render(String posicao) {
@@ -83,21 +70,24 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
                 //Class.forName("com.mysql.cj.jdbc.Driver");
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    java.sql.Connection conn = DriverManager.getConnection(
+                    Connection conn = DriverManager.getConnection(
                             "jdbc:mysql://aws-sa-east-1.connect.psdb.cloud/jazzhands?sslMode=VERIFY_IDENTITY",
-                            "85y7ejgyd54nl7sm22s0",
-                            "main-2022-nov-10-0o5cv2");
+                            "l9ypz8em1pm0sbkjhrq0",
+                            "pscale_pw_bwDadmsdWftoiuLDTK70TlyJqcMmyc4S8InPUuqf5RV");
+                    conn.close();
+                    System.out.println("Successfully connected to PlanetScale!");
                 }
                 catch (Exception err)
                 {
-                    StringWriter sw = new StringWriter();
+                    err.printStackTrace();
+                    /*StringWriter sw = new StringWriter();
                     err.printStackTrace(new PrintWriter(sw));
                     String exceptionAsString = sw.toString();
 
                     ScreenUtils.clear(0, 0, 0, 1);
                     batch.begin();
                     fonte.draw(batch, exceptionAsString, 0, 1200);
-                    batch.end();
+                    batch.end();*/
                 }
             }
         }
@@ -113,6 +103,5 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
     }
 }
