@@ -87,7 +87,4 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.jazzhands.game/com.jazzhands.game.AndroidLauncher'
 }
 
-dependencies {
-}
-
 eclipse.project.name = appName + "-android"

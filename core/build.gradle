@@ -1,7 +1,4 @@
 sourceCompatibility = 1.7
-dependencies {
-implementation files('../android/mysql-connector-j-8.0.31/mysql-connector-j-8.0.31.jar')
-}
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
