@@ -80,25 +80,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
             if(batidasFalhas >= 10) {
                 estado = "perdeu";
                 musica.stop();
-                //Class.forName("com.mysql.cj.jdbc.Driver");
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    java.sql.Connection conn = DriverManager.getConnection(
-                            "jdbc:mysql://aws-sa-east-1.connect.psdb.cloud/jazzhands?sslMode=VERIFY_IDENTITY",
-                            "85y7ejgyd54nl7sm22s0",
-                            "main-2022-nov-10-0o5cv2");
-                }
-                catch (Exception err)
-                {
-                    StringWriter sw = new StringWriter();
-                    err.printStackTrace(new PrintWriter(sw));
-                    String exceptionAsString = sw.toString();
-
-                    ScreenUtils.clear(0, 0, 0, 1);
-                    batch.begin();
-                    fonte.draw(batch, exceptionAsString, 0, 1200);
-                    batch.end();
-                }
             }
         }
     }

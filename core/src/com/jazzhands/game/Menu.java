@@ -23,7 +23,7 @@ public class Menu implements Screen {
     };
 
     //Variável que define a música que o jogador está observando
-    private int musicaEscolhida = 10;
+    private int musicaEscolhida = 0;
     private int frame = 0;
     private int ultimaMudanca = -60;
 

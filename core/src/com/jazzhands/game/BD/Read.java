@@ -1,0 +1,63 @@
+package com.jazzhands.game.BD;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import br.unicamp.projetopratica.Pontuacao;
+import android.database.sqlite.SQLiteOpenHelper;
+import java.util.ArrayList;
+
+public class Read extends SQLiteOpenHelper{
+    private static final String NOME_DB = "RECORDES";
+    private static final int VERSAO_DB = 1;
+    private static final String TABELA_RECORDES = "TABELA_RECORDES";
+    private static final String PATH_DB = "/data/user/0/br.unicamp.projetopratica/databases/RECORDES";
+    private Context mContext;
+    private SQLiteDatabase db;
+
+    public Read(Context context) {
+        super(context, NOME_DB, null,VERSAO_DB);
+        this.mContext = context;
+        db = getReadableDatabase(); //o método indica que será lido do db
+    }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+    }
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int
+            newVersion) {
+    }
+
+    public Pontuacao getPontuacao() {
+        openDB();
+        Pontuacao p = new Pontuacao();
+        String getPontuacao = "select * from " + TABELA_RECORDES;
+        try{
+            Cursor c = db.rawQuery(getPontuacao,null);
+            if(c.moveToFirst()) {
+                p.setId(c.getInt(0));
+                p.setPontos(c.getInt(1));
+                c.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            db.close();
+        }
+        return p;
+    }
+
+    @SuppressLint("WrongConstant")
+    private void openDB(){
+        if(!db.isOpen()){
+            db =
+                    mContext.openOrCreateDatabase(PATH_DB,SQLiteDatabase.OPEN_READWRITE,null);
+        }
+    }
+}
+
