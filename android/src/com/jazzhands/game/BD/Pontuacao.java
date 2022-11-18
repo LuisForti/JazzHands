@@ -2,19 +2,19 @@ package com.jazzhands.game.BD;
 
 public class Pontuacao {
 
-    Integer id;
+    Integer musicaId;
     Integer pontos;
 
     public Pontuacao() {
-        id = 1;
+        musicaId = 1;
     }
 
     public Integer getId() {
-        return id;
+        return musicaId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.musicaId = id;
     }
 
     public Integer getPontos() {

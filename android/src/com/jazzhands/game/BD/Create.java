@@ -8,10 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class Create extends SQLiteOpenHelper {
-    private static final String NOME_DB = "RECORDES";
+    private static final String NOME_DB = "RECORDESMUSICA";
     private static final int VERSAO_DB = 1;
     private static final String TABELA_RECORDES = "TABELA_RECORDES";
-    private static final String PATH_DB = "/data/user/0/br.unicamp.projetopratica/databases/RECORDES";
+    private static final String PATH_DB = "/data/user/0/com.jazzhands.game/databases/RECORDES";
     private Context mContext;
     private SQLiteDatabase db; //instância de banco de dados
     //O null indica que usaremos um cursor padrão
@@ -40,7 +40,7 @@ public class Create extends SQLiteOpenHelper {
             ContentValues cv = new ContentValues();
             for(int i = 1; i <= 11; i++) {
                 cv.put("MUSICAID", i);
-                cv.put("PONTOS", 0);
+                cv.put("PONTOS", 100);
             }
             db.insert(TABELA_RECORDES, null, cv);
             return true;

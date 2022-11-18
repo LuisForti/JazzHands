@@ -1,5 +1,7 @@
 package com.jazzhands.game;
 
+import android.content.Context;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
@@ -14,10 +16,16 @@ public class Controlador extends Game {
     //Variáveis para controle da posição do celular
     double anguloX, anguloY, anguloZ;
     String posicao;
+    Context contexto;
 
     //Ao abrir o jogo irá chamar o método de ir para o menu
+    public Controlador(Context context) {
+        contexto = context;
+    }
+
     @Override
-    public void create() {
+    public void create()
+    {
         trocarParaMenu();
     }
 
@@ -79,6 +87,9 @@ public class Controlador extends Game {
     //Método para trocar para o menu
     private void trocarParaMenu()
     {
+        if(telaMenu != null)
+            telaMenu = null;
+
         //Define o estado do jogo
         estado = "menu";
         //Cria uma instância de menu e abre ela
@@ -89,12 +100,17 @@ public class Controlador extends Game {
     //Método para trocar para o jogo
     private void trocarParaJogo()
     {
+        if(telaJogo != null) {
+            telaJogo.dispose();
+            telaJogo = null;
+        }
+
         //Define o estado do jogo
         estado = "jogando";
         //Cria uma instância do jogo e abre ela
         telaJogo = new JogoTcc();
         setScreen(telaJogo);
         //Passa para o jogo as informações da música escolhida
-        telaJogo.iniciar(telaMenu.pegarMusica());
+        telaJogo.iniciar(telaMenu.pegarMusica(), contexto);
     }
 }

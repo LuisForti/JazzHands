@@ -5,15 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import br.unicamp.projetopratica.Pontuacao;
+import com.jazzhands.game.BD.Pontuacao;
 import android.database.sqlite.SQLiteOpenHelper;
-import java.util.ArrayList;
 
 public class Read extends SQLiteOpenHelper{
-    private static final String NOME_DB = "RECORDES";
+    private static final String NOME_DB = "RECORDESMUSICA";
     private static final int VERSAO_DB = 1;
     private static final String TABELA_RECORDES = "TABELA_RECORDES";
-    private static final String PATH_DB = "/data/user/0/br.unicamp.projetopratica/databases/RECORDES";
+    private static final String PATH_DB = "/data/user/0/com.jazzhands.game/databases/RECORDES";
     private Context mContext;
     private SQLiteDatabase db;
 
@@ -30,12 +29,12 @@ public class Read extends SQLiteOpenHelper{
             newVersion) {
     }
 
-    public Pontuacao getPontuacao() {
+    public Pontuacao getPontuacao(int id) {
         openDB();
         Pontuacao p = new Pontuacao();
-        String getPontuacao = "select * from " + TABELA_RECORDES;
+        String getPontuacao = "select * from " + TABELA_RECORDES + " WHERE MUSICAID = ?";
         try{
-            Cursor c = db.rawQuery(getPontuacao,null);
+            Cursor c = db.rawQuery(getPontuacao, new String[] {Integer.toString(id)});
             if(c.moveToFirst()) {
                 p.setId(c.getInt(0));
                 p.setPontos(c.getInt(1));
@@ -55,8 +54,7 @@ public class Read extends SQLiteOpenHelper{
     @SuppressLint("WrongConstant")
     private void openDB(){
         if(!db.isOpen()){
-            db =
-                    mContext.openOrCreateDatabase(PATH_DB,SQLiteDatabase.OPEN_READWRITE,null);
+            db = mContext.openOrCreateDatabase(PATH_DB,SQLiteDatabase.OPEN_READWRITE,null);
         }
     }
 }

@@ -1,33 +1,31 @@
 package com.jazzhands.game;
 
+import android.content.Context;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import java.io.*;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import com.jazzhands.game.BD.Create;
+import com.jazzhands.game.BD.Pontuacao;
+import com.jazzhands.game.BD.Read;
 
 public class JogoTcc extends ApplicationAdapter implements Screen {
-    SpriteBatch batch;
-    BitmapFont fonte;
-
     Music musica;
+    int idMusica = 1;
 
     int frame = 0;
     int ritmo = 0;
     double proximaBatida = 0;
     int batidaAtual = 0;
-    String[][] movimentacao = {{"cima", "frente"}};
+    String[] movimentacao = {"cima", "frente"};
     int batidasFalhas = 0;
 
     int pontuacao = 0;
+    int maiorPontuacao;
     String estado = "jogando";
+
+    Context contexto;
 
 
     @java.lang.Override
@@ -40,15 +38,14 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         //Método obrigatório de Screen
     }
 
-    public void iniciar(String[] enderecoMusica)
+    public void iniciar(String[] enderecoMusica, Context context)
     {
         musica = Gdx.audio.newMusic(Gdx.files.internal(enderecoMusica[0]));
+        idMusica = Integer.parseInt(enderecoMusica[2]);
+
         ritmo = Integer.parseInt(enderecoMusica[1]);
         proximaBatida = ritmo;
-
-        batch = new SpriteBatch();
-        fonte = new BitmapFont();
-        fonte.getData().setScale(1);
+        contexto = context;
     }
 
     public void render(String posicao) {
@@ -67,7 +64,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
         if (frame >= proximaBatida) {
             batidaAtual++;
             proximaBatida += ritmo;
-            if (posicao == movimentacao[0][batidaAtual % 2])
+            if (posicao == movimentacao[batidaAtual % 2])
             {
                 if(batidaAtual > 10) {
                     pontuacao++;
@@ -80,8 +77,20 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
             if(batidasFalhas >= 10) {
                 estado = "perdeu";
                 musica.stop();
+                pegarPontuacaoMaxima();
             }
         }
+    }
+
+    private void pegarPontuacaoMaxima()
+    {
+        Create c = new Create(contexto);
+        c.createTable();
+
+        Read r = new Read(contexto);
+        Pontuacao p1 = r.getPontuacao(idMusica);
+        maiorPontuacao = p1.getPontos();
+        System.out.println(maiorPontuacao);
     }
 
     public String pegarEstado()
@@ -94,6 +103,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        musica.stop();
     }
 }
