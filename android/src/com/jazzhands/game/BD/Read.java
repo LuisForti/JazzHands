@@ -32,14 +32,14 @@ public class Read extends SQLiteOpenHelper{
     public Pontuacao getPontuacao(int id) {
         openDB();
         Pontuacao p = new Pontuacao();
-        String getPontuacao = "select * from " + TABELA_RECORDES + " WHERE MUSICAID = ?";
+        String getPontuacao = "SELECT * FROM " + TABELA_RECORDES + " WHERE MUSICAID = ?";
         try{
             Cursor c = db.rawQuery(getPontuacao, new String[] {Integer.toString(id)});
             if(c.moveToFirst()) {
                 p.setId(c.getInt(0));
                 p.setPontos(c.getInt(1));
-                c.close();
             }
+            c.close();
         }
         catch (Exception e){
             e.printStackTrace();

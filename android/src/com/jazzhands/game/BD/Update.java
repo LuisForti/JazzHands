@@ -28,10 +28,10 @@ public class Update extends SQLiteOpenHelper{
             newVersion) {
     }
 
-    public boolean updatePontuacao(int i, Pontuacao p){
+    public boolean updatePontuacao(Pontuacao p){
         openDB();
         try {
-            String where = "MUSICAID=" + i;
+            String where = "MUSICAID = " + p.getId();
             ContentValues cv = new ContentValues();
             cv.put("PONTOS",p.getPontos());
             db.update(TABELA_RECORDES, cv, where, null);

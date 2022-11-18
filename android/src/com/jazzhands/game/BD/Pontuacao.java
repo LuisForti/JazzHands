@@ -2,8 +2,8 @@ package com.jazzhands.game.BD;
 
 public class Pontuacao {
 
-    Integer musicaId;
-    Integer pontos;
+    private Integer musicaId;
+    private Integer pontos;
 
     public Pontuacao() {
         musicaId = 1;

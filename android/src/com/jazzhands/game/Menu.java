@@ -26,6 +26,7 @@ public class Menu implements Screen {
     private int musicaEscolhida = 0;
     private int frame = 0;
     private int ultimaMudanca = -60;
+    private boolean estaPronto = false;
 
     @java.lang.Override
     public void show() {
@@ -37,28 +38,42 @@ public class Menu implements Screen {
 
     public void render(String posicao) {
         frame += 1;
-        if(ultimaMudanca + 60 <= frame)
-        {
-            switch (posicao)
-            {
-                case "frente": musicaEscolhida++; ultimaMudanca = frame; Gdx.input.vibrate(200); break;
-                case "tras": musicaEscolhida--; ultimaMudanca = frame; Gdx.input.vibrate(200); break;
-                default: break;
+        if(estaPronto) {
+            if (ultimaMudanca + 60 <= frame) {
+                switch (posicao) {
+                    case "frente":
+                        musicaEscolhida++;
+                        ultimaMudanca = frame;
+                        Gdx.input.vibrate(200);
+                        break;
+                    case "tras":
+                        musicaEscolhida--;
+                        ultimaMudanca = frame;
+                        Gdx.input.vibrate(200);
+                        break;
+                    default:
+                        break;
+                }
+                if (musicaEscolhida < 0)
+                    musicaEscolhida = 0;
+                if (musicaEscolhida >= listaDasMusicas.length)
+                    musicaEscolhida = listaDasMusicas.length - 1;
             }
-            if(musicaEscolhida < 0)
-                musicaEscolhida = 0;
-            if(musicaEscolhida >= listaDasMusicas.length)
-                musicaEscolhida = listaDasMusicas.length-1;
+            switch (posicao) {
+                case "esquerda":
+                case "direita":
+                    estado = "jogando";
+                    estaPronto = false;
+                    break;
+                default:
+                    estado = "menu";
+                    break;
+            }
         }
-        switch (posicao)
+        else
         {
-            case "esquerda":
-            case "direita":
-                estado = "jogando";
-                break;
-            default:
-                estado = "menu";
-                break;
+            if(posicao == "cima")
+                estaPronto = true;
         }
     }
 

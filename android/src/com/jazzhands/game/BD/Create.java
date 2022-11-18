@@ -32,7 +32,7 @@ public class Create extends SQLiteOpenHelper {
         openDB();
         String createTable = "CREATE TABLE IF NOT EXISTS " + TABELA_RECORDES
                 + "("
-                + "MUSICAID INTEGER, "
+                + "MUSICAID STRING, "
                 + "PONTOS INTEGER)";
 
         try{
@@ -40,9 +40,9 @@ public class Create extends SQLiteOpenHelper {
             ContentValues cv = new ContentValues();
             for(int i = 1; i <= 11; i++) {
                 cv.put("MUSICAID", i);
-                cv.put("PONTOS", 100);
+                cv.put("PONTOS", 0);
+                db.insert(TABELA_RECORDES, null, cv);
             }
-            db.insert(TABELA_RECORDES, null, cv);
             return true;
         } catch(Exception e){
             e.printStackTrace();

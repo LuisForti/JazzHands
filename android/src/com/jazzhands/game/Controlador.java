@@ -87,13 +87,12 @@ public class Controlador extends Game {
     //Método para trocar para o menu
     private void trocarParaMenu()
     {
-        if(telaMenu != null)
-            telaMenu = null;
-
         //Define o estado do jogo
         estado = "menu";
         //Cria uma instância de menu e abre ela
-        telaMenu = new Menu();
+        if(telaMenu == null)
+            telaMenu = new Menu();
+        
         setScreen(telaMenu);
     }
 
