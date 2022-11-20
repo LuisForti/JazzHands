@@ -9,6 +9,7 @@ public class Controlador extends Game {
     //Objetos das telas
     Menu telaMenu;
     JogoTcc telaJogo;
+    TelaPontuacao telaPontuacao;
 
     //Variável que define o que está acontecendo
     String estado;
@@ -78,9 +79,15 @@ public class Controlador extends Game {
                     case "jogando": telaJogo.render(posicao); break;
                     //Caso tenha acabado a música, troca para o menu
                     case "perdeu":
-                    case "ganhou": trocarParaMenu(); break;
+                    case "ganhou": trocarParaPontuacao(); break;
                 }
                 break;
+            case "analisandoPontuacao": {
+                telaPontuacao.render(posicao);
+                if (telaPontuacao.pegarEstado() == "menu")
+                    trocarParaMenu();
+                break;
+            }
         }
     }
 
@@ -100,10 +107,10 @@ public class Controlador extends Game {
     private void trocarParaJogo()
     {
         if(telaJogo != null) {
-            telaJogo.dispose();
-            telaJogo = null;
+            telaJogo.hide();
         }
 
+        telaJogo = null;
         //Define o estado do jogo
         estado = "jogando";
         //Cria uma instância do jogo e abre ela
@@ -111,5 +118,18 @@ public class Controlador extends Game {
         setScreen(telaJogo);
         //Passa para o jogo as informações da música escolhida
         telaJogo.iniciar(telaMenu.pegarMusica(), contexto);
+    }
+
+    private void trocarParaPontuacao()
+    {
+        if(telaPontuacao != null) {
+            telaPontuacao.hide();
+        }
+
+        telaPontuacao = null;
+        telaPontuacao = new TelaPontuacao();
+        setScreen(telaPontuacao);
+        telaPontuacao.analisarPontuacaoMaxima(telaMenu.pegarMusica(), contexto, telaJogo.pegarPontuacao(), estado);
+        estado = "analisandoPontuacao";
     }
 }

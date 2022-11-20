@@ -2,6 +2,7 @@ package com.jazzhands.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 
 public class Menu implements Screen {
     //Variável para definir o estado do menu
@@ -9,17 +10,17 @@ public class Menu implements Screen {
 
     //Matriz com as informações das músicas
     private String[][] listaDasMusicas = {
-            {"100years_com_metronomo.mp3", "34", "1"}, //Disponível em: https://www.youtube.com/watch?v=-kWFRyQ5VU8&list=PLAdwl9xZlNTB4pHCmi81eG2U_CB93Q5eF&index=6
-            {"deNada_com_metronomo.mp3", "29", "2"}, //Disponível em: https://www.youtube.com/watch?v=HCywogc4NqA
-            {"dragonsQuest_com_metronomo.mp3", "24", "3"}, //Disponível em: https://www.youtube.com/watch?v=J4L1dVYmotg
-            {"everythingGoesOn_com_metronomo.mp3", "29", "4"}, //Disponível em: https://www.youtube.com/watch?v=sgWAeJyM6QI
-            {"goodEnough_com_metronomo.mp3", "33", "5"}, //Disponível em: https://www.youtube.com/watch?v=thZqzBtnXCY&t=27s
-            {"hisTheme_com_metronomo.mp3", "33", "6"}, //Disponível em: https://www.youtube.com/watch?v=IkOK8tdEsFY
-            {"karma_com_metronomo.mp3", "29", "7"}, //Disponível em: https://www.youtube.com/watch?v=wsFB9Z7DfFc
-            {"piratasDoCaribe_com_metronomo.mp3", "30", "8"}, //Disponível em: https://www.youtube.com/watch?v=ZLZ5I3-9B6U
-            {"pokemonTema_com_metronomo.mp3", "26", "9"}, //Disponível em: https://www.youtube.com/watch?v=La0SnKkNaZw
-            {"stillDancing_com_metronomo.mp3", "30", "10"}, //Disponível em: https://www.youtube.com/watch?v=AlYdp8P1s6c
-            {"wellerman_com_metronomo.mp3", "35", "11"} //Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
+            {"Musicas\\100years.mp3", "34", "1"}, //Disponível em: https://www.youtube.com/watch?v=-kWFRyQ5VU8&list=PLAdwl9xZlNTB4pHCmi81eG2U_CB93Q5eF&index=6
+            {"Musicas\\deNada.mp3", "29", "2"}, //Disponível em: https://www.youtube.com/watch?v=HCywogc4NqA
+            {"Musicas\\dragonsQuest.mp3", "24", "3"}, //Disponível em: https://www.youtube.com/watch?v=J4L1dVYmotg
+            {"Musicas\\everythingGoesOn.mp3", "29", "4"}, //Disponível em: https://www.youtube.com/watch?v=sgWAeJyM6QI
+            {"Musicas\\goodEnough.mp3", "33", "5"}, //Disponível em: https://www.youtube.com/watch?v=thZqzBtnXCY&t=27s
+            {"Musicas\\hisTheme.mp3", "33", "6"}, //Disponível em: https://www.youtube.com/watch?v=IkOK8tdEsFY
+            {"Musicas\\karma.mp3", "29", "7"}, //Disponível em: https://www.youtube.com/watch?v=wsFB9Z7DfFc
+            {"Musicas\\piratasDoCaribe.mp3", "30", "8"}, //Disponível em: https://www.youtube.com/watch?v=ZLZ5I3-9B6U
+            {"Musicas\\pokemonTema.mp3", "26", "9"}, //Disponível em: https://www.youtube.com/watch?v=La0SnKkNaZw
+            {"Musicas\\stillDancing.mp3", "30", "10"}, //Disponível em: https://www.youtube.com/watch?v=AlYdp8P1s6c
+            {"Musicas\\wellerman.mp3", "35", "11"} //Disponível em: https://www.youtube.com/watch?v=XBz9-2G2FoU
     };
 
     //Variável que define a música que o jogador está observando
@@ -27,6 +28,8 @@ public class Menu implements Screen {
     private int frame = 0;
     private int ultimaMudanca = -60;
     private boolean estaPronto = false;
+
+    Music nomeMusica;
 
     @java.lang.Override
     public void show() {
@@ -43,25 +46,32 @@ public class Menu implements Screen {
                 switch (posicao) {
                     case "frente":
                         musicaEscolhida++;
+                        if (musicaEscolhida >= listaDasMusicas.length)
+                            musicaEscolhida = listaDasMusicas.length - 1;
+                        dizerNome();
                         ultimaMudanca = frame;
                         Gdx.input.vibrate(200);
+
                         break;
                     case "tras":
                         musicaEscolhida--;
+                        if (musicaEscolhida < 0)
+                            musicaEscolhida = 0;
+                        dizerNome();
                         ultimaMudanca = frame;
                         Gdx.input.vibrate(200);
                         break;
                     default:
                         break;
                 }
-                if (musicaEscolhida < 0)
-                    musicaEscolhida = 0;
-                if (musicaEscolhida >= listaDasMusicas.length)
-                    musicaEscolhida = listaDasMusicas.length - 1;
             }
             switch (posicao) {
                 case "esquerda":
                 case "direita":
+                    if(nomeMusica != null)
+                        nomeMusica.stop();
+
+                    nomeMusica = null;
                     estado = "jogando";
                     estaPronto = false;
                     break;
@@ -72,9 +82,27 @@ public class Menu implements Screen {
         }
         else
         {
-            if(posicao == "cima")
+            if(nomeMusica == null)
+            {
+                nomeMusica = Gdx.audio.newMusic(Gdx.files.internal("Audios\\AntesDeQualquerCoisa.mp3"));
+                nomeMusica.play();
+            }
+            if(posicao == "cima") {
+                nomeMusica.stop();
                 estaPronto = true;
+                nomeMusica = Gdx.audio.newMusic(Gdx.files.internal("Audios\\Menu.mp3"));
+                nomeMusica.play();
+            }
         }
+    }
+
+    private void dizerNome()
+    {
+        if(nomeMusica != null)
+            nomeMusica.stop();
+
+        nomeMusica = Gdx.audio.newMusic(Gdx.files.internal("Audios\\Musica " + (listaDasMusicas[musicaEscolhida][2]) + ".mp3"));
+        nomeMusica.play();
     }
 
     public String pegarEstado()
