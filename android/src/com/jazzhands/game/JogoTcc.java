@@ -13,7 +13,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     int frame = 0;
     int ritmo = 0;
     double proximaBatida = 0;
-    int batidaAtual = 0;
+    int batidaAtual = -1;
     String[] movimentacao = {"cima", "cima", "cima"};
     int batidasFalhas = 0;
 
@@ -147,6 +147,7 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
             if(batidasFalhas >= 5) {
                 estado = "perdeu";
                 musica.stop();
+                musica.dispose();
             }
         }
     }
@@ -161,5 +162,6 @@ public class JogoTcc extends ApplicationAdapter implements Screen {
     @java.lang.Override
     public void hide() {
         musica.stop();
+        musica.dispose();
     }
 }

@@ -24,7 +24,7 @@ public class Menu implements Screen {
     };
 
     //Variável que define a música que o jogador está observando
-    private int musicaEscolhida = 0;
+    private int musicaEscolhida = -1;
     private int frame = 0;
     private int ultimaMudanca = -60;
     private boolean estaPronto = false;
@@ -71,6 +71,9 @@ public class Menu implements Screen {
                     if(nomeMusica != null)
                         nomeMusica.stop();
 
+                    if(musicaEscolhida < 0)
+                        musicaEscolhida = 0;
+
                     nomeMusica = null;
                     estado = "jogando";
                     estaPronto = false;
@@ -98,8 +101,10 @@ public class Menu implements Screen {
 
     private void dizerNome()
     {
-        if(nomeMusica != null)
+        if(nomeMusica != null) {
             nomeMusica.stop();
+            nomeMusica.dispose();
+        }
 
         nomeMusica = Gdx.audio.newMusic(Gdx.files.internal("Audios\\Musica " + (listaDasMusicas[musicaEscolhida][2]) + ".mp3"));
         nomeMusica.play();

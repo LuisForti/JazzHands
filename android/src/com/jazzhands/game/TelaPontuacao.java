@@ -59,7 +59,7 @@ public class TelaPontuacao extends ApplicationAdapter implements Screen {
             while (audio.isPlaying())
                 ;
 
-            audio = Gdx.audio.newMusic(Gdx.files.internal("Audios\\PassouRecordeFim" + ((int)Math.random() * 3 + 1) + ".mp3"));
+            audio = Gdx.audio.newMusic(Gdx.files.internal("Audios\\PassouRecordeFim" + (int)(Math.random() * 3 + 1) + ".mp3"));
             audio.play();
             while (audio.isPlaying())
                 ;
@@ -86,8 +86,10 @@ public class TelaPontuacao extends ApplicationAdapter implements Screen {
     public void render(String posicao) {
         switch (posicao) {
             case "frente": {
-                if(audio.isPlaying())
+                if(audio.isPlaying()) {
                     audio.stop();
+                    audio.dispose();
+                }
 
                 audio = Gdx.audio.newMusic(Gdx.files.internal("Audios\\PontuacaoTotalFoi.mp3"));
                 audio.play();
@@ -119,8 +121,10 @@ public class TelaPontuacao extends ApplicationAdapter implements Screen {
             }
             case "direita":
             case "esquerda": {
-                if(audio.isPlaying())
+                if(audio.isPlaying()) {
                     audio.stop();
+                    audio.dispose();
+                }
 
                 estado = "menu";
                 break;
@@ -182,5 +186,6 @@ public class TelaPontuacao extends ApplicationAdapter implements Screen {
     @Override
     public void hide() {
         audio.stop();
+        audio.dispose();
     }
 }

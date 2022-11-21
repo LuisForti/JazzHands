@@ -40,20 +40,37 @@ public class Controlador extends Game {
         anguloZ = Gdx.input.getAccelerometerZ() * 9.18;
 
         // Para cima
-        if (anguloY > 40)
+        if (anguloY > 40) {
             posicao = "cima";
-        else if(anguloY < -60)
-            posicao = "baixo";
-        //Caso esteja inclinado, verifica se é pra frente ou pra trás
-        else if (anguloZ > 40)
-            posicao = "frente";
-        else if(anguloZ < -20)
-            posicao = "tras";
-        //Caso não esteja em nenhum dos casos anteriores, verifica se está para a esquerda ou a direita
-        else if (anguloX > 20)
-            posicao = "esquerda";
-        else if (anguloX < -20)
-            posicao = "direita";
+        }
+        else
+        {
+            if(anguloY < -60) {
+                posicao = "baixo";
+            }
+                //Caso esteja inclinado, verifica se é pra frente ou pra trás
+            else
+            {
+                if(anguloX > 60)
+                {
+                    posicao = "esquerda";
+                }
+                else
+                {
+                    if(anguloX < -60)
+                    {
+                        posicao = "direita";
+                    }
+                    else
+                    {
+                        if(anguloZ > 0)
+                            posicao = "frente";
+                        else
+                            posicao = "tras";
+                    }
+                }
+            }
+        }
 
         //Controle do que renderizar do jogo
         switch (estado)
