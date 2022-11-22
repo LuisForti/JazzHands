@@ -17,6 +17,7 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useCompass = false;
 		config.useGyroscope = true;
 
+		//Inicia o código
 		initialize(new Controlador(this), config);
 	}
 }
